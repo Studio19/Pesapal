@@ -1,6 +1,6 @@
 {
-  "name": "knox/pesapal",
-  "description": "A laravel package that integrates into the pesapal api",
+  "name": "studio19/pesapal",
+  "description": "A laravel package that integrates into the pesapal api based on the knox one, with minor improvements",
   "keywords": [
     "pesapal",
     "laravel 5",
@@ -10,7 +10,7 @@
     "Mastercard",
     "Orange Money"
   ],
-  "homepage": "https://github.com/knox2/pesapal",
+  "homepage": "https://github.com/Studio19/Pesapal",
   "license": "MIT",
   "authors": [
     {

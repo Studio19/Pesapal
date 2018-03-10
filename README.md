@@ -1,5 +1,5 @@
 # Pesapal Laravel 5 API
-Laravel 5 Package for the Pesapal API
+Laravel 5 Package for the Pesapal API based on the knox package
 
 ## Installation
 
@@ -17,7 +17,7 @@ Add the service provider to the providers array in config/app.php:
 
 Add the facade to the aliases array in config/app.php:
 
-`'Pesapal' => Knox\Pesapal\Facades\Pesapal::class,` 
+`'Pesapal' => Knox\Pesapal\Facades\Pesapal::class,`
 
 ### Publish the package configuration
 
@@ -146,8 +146,6 @@ Route::group(['prefix' => '/webhooks'], function () {
     Route::get('paymentconfirmation', 'PaymentsController@paymentconfirmation');
 });
  ```
- 
+
 #### All Done
 Feel free to report any issues
-
-
