@@ -6,12 +6,12 @@
  * Time: 4:47 AM
  */
 
-namespace Knox\Pesapal\Contracts;
+namespace Studio19\Pesapal\Contracts;
 
 
 /**
  * Interface PesapalContract
- * @package Knox\Pesapal\Contracts
+ * @package Studio19\Pesapal\Contracts
  */
 interface PesapalContract
 {

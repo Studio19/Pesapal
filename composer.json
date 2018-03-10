@@ -1,6 +1,6 @@
 {
   "name": "studio19/pesapal",
-  "description": "A laravel package that integrates into the pesapal api based on the knox one, with minor improvements",
+  "description": "A laravel package that integrates into the pesapal api based on the Studio19 one, with minor improvements",
   "keywords": [
     "pesapal",
     "laravel 5",
@@ -26,7 +26,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Knox\\Pesapal\\": "src/"
+      "Studio19\\Pesapal\\": "src/"
     }
   },
   "scripts": {
@@ -37,10 +37,10 @@
   "extra": {
     "laravel": {
       "providers": [
-        "Knox\\Pesapal\\PesapalServiceProvider"
+        "Studio19\\Pesapal\\PesapalServiceProvider"
       ],
       "aliases": {
-        "Pesapal": "Knox\\Pesapal\\Facades\\Pesapal"
+        "Pesapal": "Studio19\\Pesapal\\Facades\\Pesapal"
       }
     }
   }

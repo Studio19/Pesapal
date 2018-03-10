@@ -6,13 +6,13 @@
  * Time: 2:26 AM
  */
 
-namespace Knox\Pesapal\OAuth;
+namespace Studio19\Pesapal\OAuth;
 
 
 /**
  * Class OAuthToken
  *
- * @package Knox\Pesapal\OAuth
+ * @package Studio19\Pesapal\OAuth
  */
 class OAuthToken
 {

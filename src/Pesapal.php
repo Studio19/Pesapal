@@ -1,18 +1,18 @@
 <?php
 
-namespace Knox\Pesapal;
+namespace Studio19\Pesapal;
 
-use Knox\Pesapal\Contracts\PesapalContract;
-use Knox\Pesapal\Exceptions\PesapalException;
-use Knox\Pesapal\OAuth\OAuthConsumer;
-use Knox\Pesapal\OAuth\OAuthRequest;
-use Knox\Pesapal\OAuth\OAuthSignatureMethod_HMAC_SHA1;
+use Studio19\Pesapal\Contracts\PesapalContract;
+use Studio19\Pesapal\Exceptions\PesapalException;
+use Studio19\Pesapal\OAuth\OAuthConsumer;
+use Studio19\Pesapal\OAuth\OAuthRequest;
+use Studio19\Pesapal\OAuth\OAuthSignatureMethod_HMAC_SHA1;
 use Route;
 
 /**
  * Class Pesapal
  *
- * @package Knox\Pesapal
+ * @package Studio19\Pesapal
  */
 class Pesapal implements PesapalContract
 {
@@ -28,7 +28,7 @@ class Pesapal implements PesapalContract
      * @param $params
      *
      * @return string
-     * @throws \Knox\Pesapal\Exceptions\PesapalException
+     * @throws \Studio19\Pesapal\Exceptions\PesapalException
      */
     public function makePayment($params)
     {

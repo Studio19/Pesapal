@@ -6,15 +6,15 @@
  * Time: 2:31 AM
  */
 
-namespace Knox\Pesapal\OAuth;
+namespace Studio19\Pesapal\OAuth;
 
-use Knox\Pesapal\OAuth\Exceptions\OAuthException;
+use Studio19\Pesapal\OAuth\Exceptions\OAuthException;
 
 
 /**
  * Class OAuthRequest
  *
- * @package Knox\Pesapal\OAuth
+ * @package Studio19\Pesapal\OAuth
  */
 class OAuthRequest
 {

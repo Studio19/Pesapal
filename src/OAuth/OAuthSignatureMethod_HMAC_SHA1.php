@@ -6,13 +6,13 @@
  * Time: 2:28 AM
  */
 
-namespace Knox\Pesapal\OAuth;
+namespace Studio19\Pesapal\OAuth;
 
 
 /**
  * Class OAuthSignatureMethod_HMAC_SHA1
  *
- * @package Knox\Pesapal\OAuth
+ * @package Studio19\Pesapal\OAuth
  */
 class OAuthSignatureMethod_HMAC_SHA1 extends OAuthSignatureMethod
 {
