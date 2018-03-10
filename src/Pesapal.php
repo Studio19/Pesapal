@@ -76,18 +76,18 @@ class Pesapal implements PesapalContract
         $callback_url = url('/') . '/pesapal-callback'; //redirect url, the page that will handle the response from pesapal.
 
         $post_xml = "<?xml version=\"1.0\" encoding=\"utf-8\"?>
-                        <PesapalDirectOrderInfo 
-                            xmlns:xsi=\"http://www.w3.org/2001/XMLSchemainstance\" 
-                            xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" 
-                            Amount=\"" . $params['amount'] . "\" 
-                            Description=\"" . $params['description'] . "\" 
-                            Type=\"" . $params['type'] . "\" 
-                            Reference=\"" . $params['reference'] . "\" 
-                            FirstName=\"" . $params['first_name'] . "\" 
-                            LastName=\"" . $params['last_name'] . "\" 
-                            Currency=\"" . $params['currency'] . "\" 
-                            Email=\"" . $params['email'] . "\" 
-                            PhoneNumber=\"" . $params['phonenumber'] . "\" 
+                        <PesapalDirectOrderInfo
+                            xmlns:xsi=\"http://www.w3.org/2001/XMLSchemainstance\"
+                            xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"
+                            Amount=\"" . $params['amount'] . "\"
+                            Description=\"" . $params['description'] . "\"
+                            Type=\"" . $params['type'] . "\"
+                            Reference=\"" . $params['reference'] . "\"
+                            FirstName=\"" . $params['first_name'] . "\"
+                            LastName=\"" . $params['last_name'] . "\"
+                            Currency=\"" . $params['currency'] . "\"
+                            Email=\"" . $params['email'] . "\"
+                            PhoneNumber=\"" . $params['phonenumber'] . "\"
                             xmlns=\"http://www.pesapal.com\" />";
 
         $post_xml = htmlentities($post_xml);
@@ -187,6 +187,81 @@ class Pesapal implements PesapalContract
 
     }
 
+
+    /*
+  * @param $pesapalNotification
+  * @param $pesapal_merchant_reference
+  * @param $pesapalTrackingId
+  *
+  *@return array, with Transaction Status, Payment Type, merchant_reference, Tracking ID
+  */
+ function getTransactionStatus($pesapalNotification, $pesapal_merchant_reference, $pesapalTrackingId)
+ {
+
+
+     $consumer_key = config('pesapal.consumer_key');
+     $consumer_secret = config('pesapal.consumer_secret');
+     $statusrequestAPI = $this->api_link('querypaymentdetails');
+
+
+     if ($pesapalNotification == "CHANGE" && $pesapalTrackingId != '') {
+
+         $token = $params = NULL;
+         $consumer = new OAuthConsumer($consumer_key, $consumer_secret);
+         $signature_method = new OAuthSignatureMethod_HMAC_SHA1();
+
+         //get transaction status
+         $request_status = OAuthRequest::from_consumer_and_token($consumer, $token, "GET", $statusrequestAPI,
+             $params);
+         $request_status->set_parameter("pesapal_merchant_reference", $pesapal_merchant_reference);
+         $request_status->set_parameter("pesapal_transaction_tracking_id", $pesapalTrackingId);
+         $request_status->sign_request($signature_method, $consumer, $token);
+
+         $ch = curl_init();
+         curl_setopt($ch, CURLOPT_URL, $request_status);
+         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+         curl_setopt($ch, CURLOPT_HEADER, 1);
+         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+         if (defined('CURL_PROXY_REQUIRED')) {
+             if (CURL_PROXY_REQUIRED == 'True') {
+                 $proxy_tunnel_flag = (defined('CURL_PROXY_TUNNEL_FLAG') && strtoupper(CURL_PROXY_TUNNEL_FLAG) == 'FALSE') ? false : true;
+                 curl_setopt($ch, CURLOPT_HTTPPROXYTUNNEL, $proxy_tunnel_flag);
+                 curl_setopt($ch, CURLOPT_PROXYTYPE, CURLPROXY_HTTP);
+                 curl_setopt($ch, CURLOPT_PROXY, CURL_PROXY_SERVER_DETAILS);
+             }
+         }
+
+         $response = curl_exec($ch);
+
+         $header_size = curl_getinfo($ch, CURLINFO_HEADER_SIZE);
+         $raw_header = substr($response, 0, $header_size - 4);
+         $headerArray = explode("\r\n\r\n", $raw_header);
+         $header = $headerArray[count($headerArray) - 1];
+
+         //transaction status
+         $elements = preg_split("/=/", substr($response, $header_size));
+         //$status = $elements[1];
+         $components = explode(',', $elements[1]);
+         $transaction_id = $components[0];
+         $payment_method = $components[1];
+         $merchant_reference = $components[3];
+         $status = $components[2];
+
+         if($status == 'PENDING'){
+            sleep(10);
+            $this->getTransactionStatus($pesapalNotification, $pesapal_merchant_reference, $pesapalTrackingId);
+           }
+
+         $response = array('transaction_id' => $transaction_id , 'payment_method' => $payment_method, 'merchant_reference' => $merchant_reference, 'status' => $status);
+
+         curl_close($ch);
+
+         return $response;
+
+
+     }
+
+ }
 
     /**
      * @param $pesapal_merchant_reference
