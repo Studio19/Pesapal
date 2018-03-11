@@ -248,7 +248,7 @@ class Pesapal implements PesapalContract
          $status = $components[2];
 
          if($status == 'PENDING'){
-            sleep(10);
+            sleep(2);
             $this->getTransactionStatus($pesapalNotification, $pesapal_merchant_reference, $pesapalTrackingId);
            }
 
